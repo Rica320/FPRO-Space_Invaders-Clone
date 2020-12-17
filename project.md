@@ -11,8 +11,6 @@
 
 1) Link para o repositório do GitHub: https://github.com/Rica320/FPRO-Space_Invaders-Clone
 
-2) Adicionar, como colaborador com permissão de leitura (*role read*), o Prof. da prática:
-
 ### Descrição
 
 *---É um jogo de puzzle em que o objetivo do jogo é empurrar caixotes para um sítio indicado. 
