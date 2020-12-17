@@ -1,25 +1,17 @@
-# Projeto XXXX
+# Projeto Space Invaders
 ## FPRO/MIEIC, 2020/21
-## Fulano de Tal (up2020xxxxx)
-## 1MIEIC0X
+## Ricardo de Matos (up202007962)
+## 1MIEIC04
 
 ### Objetivo
 
-1. Criar um clone do clássico Sokoban em Pygame...
-
-2. Em alternativa... do clássico x em Pygame.
+1. Criar um clone do clássico Space invaders em Pygame...
 
 ### Repositório de código
 
-1) Link para o repositório do GitHub: https://github.com/@author/xxx
+1) Link para o repositório do GitHub: https://github.com/Rica320/FPRO-Space_Invaders-Clone
 
 2) Adicionar, como colaborador com permissão de leitura (*role read*), o Prof. da prática:
-
-- https://github.com/AfonsoSalgadoSousa
-- https://github.com/jlopes60
-- https://github.com/nmacedo
-- https://github.com/rpmcruz
-- https://github.com/rcamacho
 
 ### Descrição
 
@@ -43,3 +35,4 @@ Ou seja, se ele ficar junto à parede, a pessoa precisa de reiniciar o jogo. Est
 2. verificar se jogador chegou ao fim do nível
 
 - Atualizado a última vez em 07/12/2020
+
