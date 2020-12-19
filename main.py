@@ -7,40 +7,44 @@ Created on Fri Dec 18 17:23:09 2020
 """
 
 import pygame
-import time 
-import random 
+import menu
+import game
 
-win = pygame.display.set_mode((1000,1000))
+game = game.Game()
 
-# images 
+while game.running: # .running (original) DEBUG with .playing
+    game.menu_state.menu_options_display()
+    game.game_loop()
+    
+pygame.quit()
+# win = pygame.display.set_mode((1000,1000))
 
-ship = [pygame.image.load('Images/ship.png')]
+# # images 
 
-#sounds
+# ship = [pygame.image.load('Images/ship.png')]
 
-pygame.mixer.init()
-pygame.mixer.music.load('sounds/spaceinvaders1.ogg')
-pygame.mixer.music.play()
+# #sounds
 
-pygame.init()
+# pygame.mixer.init()
+# pygame.mixer.music.load('sounds/spaceinvaders1.ogg')
+# pygame.mixer.music.play()
 
-class Ship(pygame.sprite.Sprite):
-    def __init__(self, pos):
-        self.pos = pos 
-        # self.music = 
+# pygame.init()
 
-def menu():
-    pass
+# class Ship(pygame.sprite.Sprite):
+#     def __init__(self, pos):
+#         self.pos = pos 
+#         # self.music = 
 
-def main():
-    run = True 
-    while run:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-        key = pygame.key.get_pressed()
-        if key[pygame.K_LEFT]:
-             pygame.mixer.music.fadeout(1000)
-    pygame.quit()
+# def main():
+#     run = True 
+#     while run:
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:
+        #         run = False
+        # key = pygame.key.get_pressed()
+#         if key[pygame.K_LEFT]:
+#              pygame.mixer.music.fadeout(1000)
+#     pygame.quit()
 
-main()
+# main()
