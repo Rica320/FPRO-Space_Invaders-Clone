@@ -10,6 +10,7 @@ import pygame
 class Menu():
     ''' A class that defines a menu and it's atributes'''
     def __init__(self, game):
+        pygame.mouse.set_visible(False)
         self.game = game
         self.running_display = True
         self.music = True # if the user wants...and fadout when moving to play
@@ -22,7 +23,7 @@ class Menu():
         while self.running_display:
             self.game.events()
             self.game.display.fill(self.game.COLOR)
-            self.game.blit_text("A", 200, 500, 500)
+            self.game.blit_text("A", 250, 500, 500)
             self.update_everything()
             
     def background_sound(self):

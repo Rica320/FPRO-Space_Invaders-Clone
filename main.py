@@ -38,13 +38,13 @@ pygame.quit()
 
 # def main():
 #     run = True 
-#     while run:
-        # for event in pygame.event.get():
-        #     if event.type == pygame.QUIT:
-        #         run = False
-        # key = pygame.key.get_pressed()
-#         if key[pygame.K_LEFT]:
-#              pygame.mixer.music.fadeout(1000)
-#     pygame.quit()
+    # while run:
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             run = False
+    #     key = pygame.key.get_pressed()
+    #     if key[pygame.K_LEFT]:
+    #           pygame.mixer.music.fadeout(1000)
+    # pygame.quit()
 
 # main()
