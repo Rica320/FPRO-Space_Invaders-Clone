@@ -10,41 +10,60 @@ import pygame
 import menu
 import sprites
 
+
 class Game():
     def __init__(self):
         pygame.init()
         pygame.mouse.set_visible(False)
-        self.running, self.playing = True, False # DEBUGGING
-        self.UP_KEY, self.DOWN_KEY = False, False # to use in menu
-        self.RIGHT_KEY, self.LEFT_KEY = False, False # to use in menu
+        self.running, self.playing = True, False  # DEBUGGING
         self.WIN_W, self.WIN_H = 1000, 1000
         self.display = pygame.Surface((self.WIN_W, self.WIN_H))
         self.window = pygame.display.set_mode((self.WIN_W, self.WIN_H))
-        self.font_name = "Invaders-From-Space.ttf"
         self.BACK_KEY = False
-        self.COLOR = (0,0,0)
-        self.music = True # change this 
-        self.TEXT_COLOR = (0,255,255)
+        self.COLOR = (0, 0, 0)
+        self.music = True  # change this
+        self.TEXT_COLOR = (0, 255, 255)
         self.menu_state = menu.Menu(self)
         self.clock = pygame.time.Clock()
         self.ship1_x, self.ship1_y = 500, 900
-        self.ship1 = sprites.StarShip(self.ship1_x, self.ship1_y) # x defined for future changes
+        self.ship1 = sprites.StarShip(self.ship1_x, self.ship1_y)
+        # x defined for future changes
         self.ship_group = pygame.sprite.Group()
-        self.ship_group.add(self.ship1) # Leaves the option for a second player
+        self.ship_group.add(self.ship1)
+        # Leaves the option for a second player
         self.vel = 5
-        
+        self.alien1 = [sprites.Aliens("Images/enemy1_1.png",
+                                      "Images/enemy1_2.png",
+                                      200 + x*50, 100) for x in range(11)]
+        self.alien2 = [sprites.Aliens("Images/enemy2_1.png",
+                                      "Images/enemy2_2.png",
+                                      200 + x*50, 150) for x in range(11)]
+        self.alien_g = pygame.sprite.Group()
+        self.alien_g.add(self.alien1, self.alien2)
+
     def game_loop(self):
+        self.background_sound()
         while self.playing:
-            self.clock.tick(60)
+            self.clock.tick(27)
             self.events()
             if self.BACK_KEY:
                 self.ship1.x, self.ship1.y = self.ship1_x, self.ship1_y
-                self.playing= False
-            self.update_funct()            
-    
+                self.alien_g.remove(self.alien1, self.alien2)
+                self.alien1 = [sprites.Aliens("Images/enemy1_1.png",
+                                              "Images/enemy1_2.png",
+                                              200 + x*50, 100)
+                               for x in range(11)]
+                self.alien2 = [sprites.Aliens("Images/enemy2_1.png",
+                                              "Images/enemy2_2.png",
+                                              200 + x*50, 150)
+                               for x in range(11)]
+                self.alien_g.add(self.alien1, self.alien2)
+                self.playing = False
+            self.update_method()
+
     def background_sound(self):
-        # pygame.mixer.music.load('')
-        # pygame.mixer.music.play()
+        # pygame.mixer.music.load('sounds/fastinvader1.wav')
+        # pygame.mixer.music.play(loops = 1000000)
         pass
 
     def events(self):
@@ -61,28 +80,36 @@ class Game():
                     pygame.mixer.music.fadeout(1000)
         key = pygame.key.get_pressed()
         if key[pygame.K_LEFT]:
-            self.ship1.x += - self.vel                
+            self.ship1.x += -self.vel
         elif key[pygame.K_RIGHT]:
             self.ship1.x += self.vel
         if key[pygame.K_SPACE]:
             self.ship1.shoot()
-                
-                    
-    def blit_text(self, text, size, x, y):
-        font = pygame.font.Font(self.font_name, size)
+
+    def blit_text(self, font_name, text, size, x, y):
+        font = pygame.font.Font(font_name, size)
         screen_text = font.render(text, True, self.TEXT_COLOR)
-        text_rect = screen_text.get_rect()
-        text_rect.center = (x,y)
+        text_rect = screen_text.get_rect()  # later use
+        text_rect.center = (x, y)
         self.display.blit(screen_text, text_rect)
-    
-    def update_funct(self):
+
+    def update_method(self):
         self.display.fill(self.COLOR)
         pygame.display.flip()
-        self.window.blit(self.display, (0,0)) # NOTA : Garantir posição (0,0)
+        self.window.blit(self.display, (0, 0))  # NOTA : Garantir posição (0,0)
         self.ship_group.draw(self.window)
+        self.alien_g.draw(self.window)
         self.ship_group.update()
         pygame.display.update()
+        for alien in self.alien_g:
+            if alien.flag_bool():
+                self.alien_g.update(True)
+                break
+        else:
+            self.alien_g.update(False)
         self.BACK_KEY = False
+        for alien in self.alien_g:
+            pygame.sprite.spritecollide(alien, self.ship_group, True)
     
     
     
