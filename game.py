@@ -34,12 +34,27 @@ class Game():
         self.vel = 5
         self.alien1 = [sprites.Aliens("Images/enemy1_1.png",
                                       "Images/enemy1_2.png",
-                                      200 + x*50, 100) for x in range(11)]
+                                      200 + x*50, 100)
+                       for x in range(11)]
         self.alien2 = [sprites.Aliens("Images/enemy2_1.png",
                                       "Images/enemy2_2.png",
-                                      200 + x*50, 150) for x in range(11)]
+                                      200 + x*50, 150)
+                       for x in range(11)]
+        self.alien3 = [sprites.Aliens("Images/enemy2_1.png",
+                                      "Images/enemy2_2.png",
+                                      200 + x*50, 200)
+                       for x in range(11)]
+        self.alien4 = [sprites.Aliens("Images/enemy3_1.png",
+                                      "Images/enemy3_2.png",
+                                      200 + x*50, 250)
+                       for x in range(11)]
+        self.alien5 = [sprites.Aliens("Images/enemy3_1.png",
+                                      "Images/enemy3_2.png",
+                                      200 + x*50, 300)
+                       for x in range(11)]
         self.alien_g = pygame.sprite.Group()
-        self.alien_g.add(self.alien1, self.alien2)
+        self.alien_g.add(self.alien1, self.alien2, self.alien3, self.alien4,
+                         self.alien5)
 
     def game_loop(self):
         self.background_sound()
@@ -47,17 +62,7 @@ class Game():
             self.clock.tick(27)
             self.events()
             if self.BACK_KEY:
-                self.ship1.x, self.ship1.y = self.ship1_x, self.ship1_y
-                self.alien_g.remove(self.alien1, self.alien2)
-                self.alien1 = [sprites.Aliens("Images/enemy1_1.png",
-                                              "Images/enemy1_2.png",
-                                              200 + x*50, 100)
-                               for x in range(11)]
-                self.alien2 = [sprites.Aliens("Images/enemy2_1.png",
-                                              "Images/enemy2_2.png",
-                                              200 + x*50, 150)
-                               for x in range(11)]
-                self.alien_g.add(self.alien1, self.alien2)
+                self.recreater()
                 self.playing = False
             self.update_method()
 
@@ -74,7 +79,7 @@ class Game():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     self.BACK_KEY = True
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_i:
                     self.playing = True
                     self.menu_state.running_display = False
                     pygame.mixer.music.fadeout(1000)
@@ -96,9 +101,13 @@ class Game():
     def update_method(self):
         self.display.fill(self.COLOR)
         pygame.display.flip()
-        self.window.blit(self.display, (0, 0))  # NOTA : Garantir posição (0,0)
+        self.blit_text('space_invaders.ttf', f"{self.ship1.score}",
+                       30, 970, 30)
+        self.window.blit(self.display, (0, 0))  # NOTE : Garantir posição (0,0)
         self.ship_group.draw(self.window)
+        self.ship1.bullet_g.draw(self.window)
         self.alien_g.draw(self.window)
+        self.ship1.bullet_g.update()
         self.ship_group.update()
         pygame.display.update()
         for alien in self.alien_g:
@@ -110,8 +119,40 @@ class Game():
         self.BACK_KEY = False
         for alien in self.alien_g:
             pygame.sprite.spritecollide(alien, self.ship_group, True)
-    
-    
+            if pygame.sprite.spritecollide(alien, self.ship1.bullet_g, True):
+                alien.killed()
+                self.update_method()
+                self.alien_g.remove(alien)
+                self.ship1.score += 1  # TODO change points
+
+    def recreater(self):
+        self.ship1.x, self.ship1.y = self.ship1_x, self.ship1_y
+        self.alien_g.remove(self.alien1, self.alien2, self.alien3, self.alien4,
+                            self.alien5)
+        self.alien1 = [sprites.Aliens("Images/enemy1_1.png",
+                                      "Images/enemy1_2.png",
+                                      200 + x*50, 100)
+                       for x in range(11)]
+        self.alien2 = [sprites.Aliens("Images/enemy2_1.png",
+                                      "Images/enemy2_2.png",
+                                      200 + x*50, 150)
+                       for x in range(11)]
+        self.alien3 = [sprites.Aliens("Images/enemy2_1.png",
+                                      "Images/enemy2_2.png",
+                                      200 + x*50, 200)
+                       for x in range(11)]
+        self.alien4 = [sprites.Aliens("Images/enemy3_1.png",
+                                      "Images/enemy3_2.png",
+                                      200 + x*50, 250)
+                       for x in range(11)]
+        self.alien5 = [sprites.Aliens("Images/enemy3_1.png",
+                                      "Images/enemy3_2.png",
+                                      200 + x*50, 300)
+                       for x in range(11)]
+        self.alien_g.add(self.alien1, self.alien2, self.alien3, self.alien4,
+                         self.alien5)
+        self.ship1.score = 0
+
     
     
     

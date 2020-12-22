@@ -8,14 +8,14 @@ Created on Fri Dec 18 17:23:09 2020
 
 import pygame
 import menu
-import game
+import game 
 
 game = game.Game()
 
 while game.running: # .running (original) DEBUG with .playing
     game.menu_state.menu_options_display()
     game.game_loop()
-    
+
 pygame.quit()
 # win = pygame.display.set_mode((1000,1000))
 
