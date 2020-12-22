@@ -18,16 +18,16 @@ class StarShip(pygame.sprite.Sprite):
         self.shoot_sound = pygame.mixer.Sound("sounds/shoot.wav")
         self.rect = self.image.get_rect()
         self.x, self.y = x, y
-        self.shot = Shot(self.x, self.y)
+        # self.shot = Shot(self.x, self.y)
         self.bullet_g = pygame.sprite.Group()
         self.score = 0
 
     def shoot(self):
         if len(self.bullet_g) == 0:
-            self.shot = Shot(self.x, self.y)
+            self.shot = Shot(self.x, self.y, True)
             self.bullet_g.add(self.shot)
             self.shoot_sound.play()
-            self.shot.update()
+            self.shot.update()  # estará a mais ??
 
     def update(self):
         self.rect.center = self.x, self.y
@@ -44,7 +44,6 @@ class Aliens(pygame.sprite.Sprite):
         self.image1 = image1
         self.image2 = image2
         self.walk_sound_1 = pygame.mixer.Sound('sounds/fastinvader1.wav')
-        # self.random_bullet = pygame.sprite.Group()
 
     def update(self, flag):
         self.flag = flag
@@ -77,23 +76,25 @@ class Aliens(pygame.sprite.Sprite):
     def killed(self):
         self.image = pygame.image.load("Images/explosionpurple.png")
         self.image = pygame.transform.rotozoom(self.image, 0, 0.4)
-        
-    # def shoot(self):
-    #     if len(self.random_bullet) < 2:
-    #         self.shot = Shot(self.x, self.y)
-    #         self.random_bullet.add(self.shot)
-    #         self.shot.update()
+
+    def shoot(self):
+        self.shot = Shot(self.x, self.y, False)
+        self.shot.update()  # estará a mais ??
         
 class Shot(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x, y, a_bool):
         super().__init__()
         self.image = pygame.image.load("Images/laser.png")
         self.rect = self.image.get_rect()
         self.x, self.y = x, y
+        self.a_bool = a_bool
         
     def update(self):
-        self.rect.center = self.x, self.y
-        self.y -= 10
+        if 0 < self.y < 1000:
+            self.rect.center = self.x, self.y
+            self.y -= 10 if self.a_bool else -10
+        else:
+            self.kill()
 
 
         
@@ -103,6 +104,8 @@ class Shot(pygame.sprite.Sprite):
 # alien2 = [Aliens("Images/enemy1_1.png", "Images/enemy1_2.png", 200 + x*50, 150) for x in range(11)]
 
 # alien_g.add(alien1,alien2)
+
+# random_bullet = pygame.sprite.Group()
         
 
 # ship = StarShip(400, 900)
@@ -138,14 +141,16 @@ class Shot(pygame.sprite.Sprite):
 #     ship_g.draw(screen)
 #     ship.bullet_g.draw(screen)
 #     alien_g.draw(screen)
-#     # a = alien_g.sprites()
-#     # a[random.randrange(0,len(a))].shoot()
-#     # for alien in alien_g:
-#     #     alien.random_bullet.draw(screen)
-#     #     alien.random_bullet.update()
+    
+#     if len(random_bullet) < 2:
+#         aln = alien_g.sprites()
+#         if len(aln) > 0:
+#             chosen_one = aln[random.randrange(0, len(aln))]
+#             random_bullet.add(Shot(chosen_one.x, chosen_one.y, False))
+#     random_bullet.draw(screen)
+#     random_bullet.update()
 #     ship.bullet_g.update()
 #     ship_g.update()
-
         
 
 #     for alien in alien_g:
@@ -164,5 +169,16 @@ class Shot(pygame.sprite.Sprite):
        
     
 # pygame.quit()
-        
+
+
+
+# random_bullet = pygame.sprite.Group()
+# if len(random_bullet) < 2:
+#             aln = self.alien_g.sprites()
+#             if len(aln) > 0:
+#                 chosen_one = aln[random.randrange(0, len(aln))]
+#                 random_bullet.add(sprites.Shot(chosen_one.x, chosen_one.y,
+#                                                 False))
+#         random_bullet.draw(self.window)
+# random_bullet.update()
         

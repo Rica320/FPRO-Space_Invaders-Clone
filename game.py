@@ -9,6 +9,7 @@ Created on Sat Dec 19 13:21:03 2020
 import pygame
 import menu
 import sprites
+import random
 
 
 class Game():
@@ -55,6 +56,7 @@ class Game():
         self.alien_g = pygame.sprite.Group()
         self.alien_g.add(self.alien1, self.alien2, self.alien3, self.alien4,
                          self.alien5)
+        self.random_bullet = pygame.sprite.Group()
 
     def game_loop(self):
         self.background_sound()
@@ -64,6 +66,10 @@ class Game():
             if self.BACK_KEY:
                 self.recreater()
                 self.playing = False
+            if len(self.alien_g) == 0:
+                r = self.ship1.score
+                self.recreater()
+                self.ship1.score = r
             self.update_method()
 
     def background_sound(self):
@@ -104,6 +110,14 @@ class Game():
         self.blit_text('space_invaders.ttf', f"{self.ship1.score}",
                        30, 970, 30)
         self.window.blit(self.display, (0, 0))  # NOTE : Garantir posição (0,0)
+        if len(self.random_bullet) < 2:
+            aln = self.alien_g.sprites()
+            if len(aln) > 0:
+                chosen_one = aln[random.randrange(0, len(aln))]
+                self.random_bullet.add(sprites.Shot(chosen_one.x,
+                                                    chosen_one.y, False))
+        self.random_bullet.draw(self.window)
+        self.random_bullet.update()
         self.ship_group.draw(self.window)
         self.ship1.bullet_g.draw(self.window)
         self.alien_g.draw(self.window)
@@ -152,6 +166,7 @@ class Game():
         self.alien_g.add(self.alien1, self.alien2, self.alien3, self.alien4,
                          self.alien5)
         self.ship1.score = 0
+        self.ship1.bullet_g = pygame.sprite.Group()  # Not needed
 
     
     
