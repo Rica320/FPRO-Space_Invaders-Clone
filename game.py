@@ -64,12 +64,15 @@ class Game():
             self.clock.tick(27)
             self.events()
             if self.BACK_KEY:
+                self.BACK_KEY = False
                 self.recreater()
                 self.playing = False
             if len(self.alien_g) == 0:
-                r = self.ship1.score
+                acum_score = self.ship1.score
+                priv_life = self.ship1.life
                 self.recreater()
-                self.ship1.score = r
+                self.ship1.score = acum_score
+                self.ship1.life = priv_life
             self.update_method()
 
     def background_sound(self):
@@ -116,13 +119,14 @@ class Game():
                 chosen_one = aln[random.randrange(0, len(aln))]
                 self.random_bullet.add(sprites.Shot(chosen_one.x,
                                                     chosen_one.y, False))
-        self.random_bullet.draw(self.window)
+
         self.random_bullet.update()
-        self.ship_group.draw(self.window)
-        self.ship1.bullet_g.draw(self.window)
-        self.alien_g.draw(self.window)
+        self.random_bullet.draw(self.window)
         self.ship1.bullet_g.update()
+        self.ship1.bullet_g.draw(self.window)
         self.ship_group.update()
+        self.ship_group.draw(self.window)
+        self.alien_g.draw(self.window)  # TODO Find a way to stop the Bug
         pygame.display.update()
         for alien in self.alien_g:
             if alien.flag_bool():
@@ -130,7 +134,6 @@ class Game():
                 break
         else:
             self.alien_g.update(False)
-        self.BACK_KEY = False
         for alien in self.alien_g:
             pygame.sprite.spritecollide(alien, self.ship_group, True)
             if pygame.sprite.spritecollide(alien, self.ship1.bullet_g, True):
@@ -138,11 +141,18 @@ class Game():
                 self.update_method()
                 self.alien_g.remove(alien)
                 self.ship1.score += 1  # TODO change points
+        if pygame.sprite.spritecollide(self.ship1, self.random_bullet, True):
+            if self.ship1.life == 0:
+                self.ship1.kill()
+                self.lose_window()
+            else:
+                self.ship1.life -= 1
 
     def recreater(self):
+        self.ship_group.add(self.ship1)
+        self.ship1.life = 2
         self.ship1.x, self.ship1.y = self.ship1_x, self.ship1_y
-        self.alien_g.remove(self.alien1, self.alien2, self.alien3, self.alien4,
-                            self.alien5)
+        self.alien_g.empty()
         self.alien1 = [sprites.Aliens("Images/enemy1_1.png",
                                       "Images/enemy1_2.png",
                                       200 + x*50, 100)
@@ -168,7 +178,26 @@ class Game():
         self.ship1.score = 0
         self.ship1.bullet_g = pygame.sprite.Group()  # Not needed
 
-    
+    def lose_window(self):
+        while self.playing:
+            self.display.fill(self.COLOR)
+            pygame.display.flip()
+            self.blit_text('space_invaders.ttf', "You lose!!",
+                            50, 500, 400)
+            self.blit_text('space_invaders.ttf', "Press backspace to return",
+                            30, 500, 600)
+            self.blit_text('space_invaders.ttf', f"{self.ship1.score}",
+                        30, 970, 30)
+            self.window.blit(self.display, (0, 0))
+            pygame.display.update()
+            self.events()
+            if self.BACK_KEY:
+                self.BACK_KEY = False
+                self.recreater()
+                self.playing = False
+        
+        
+        
     
     
     

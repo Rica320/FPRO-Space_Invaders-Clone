@@ -6,7 +6,6 @@ Created on Sat Dec 19 21:01:20 2020
 @author: ricardo
 """
 import pygame
-import random
 
 pygame.init()
 
@@ -21,6 +20,7 @@ class StarShip(pygame.sprite.Sprite):
         # self.shot = Shot(self.x, self.y)
         self.bullet_g = pygame.sprite.Group()
         self.score = 0
+        self.life = 2  # giving 3 lifes
 
     def shoot(self):
         if len(self.bullet_g) == 0:
