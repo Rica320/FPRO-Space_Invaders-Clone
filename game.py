@@ -10,6 +10,7 @@ import pygame
 import menu
 import sprites
 import random
+import bot
 
 
 class Game():
@@ -57,11 +58,13 @@ class Game():
         self.alien_g.add(self.alien1, self.alien2, self.alien3, self.alien4,
                          self.alien5)
         self.random_bullet = pygame.sprite.Group()
+        self.bot = bot.Bot(self)
 
     def game_loop(self):
         self.background_sound()
         while self.playing:
             self.clock.tick(27)  # 27
+            self.bot.move()
             self.events()
             if self.BACK_KEY:
                 with open('points.txt', 'a') as f:
