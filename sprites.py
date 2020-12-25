@@ -34,6 +34,8 @@ class StarShip(pygame.sprite.Sprite):
 
 
 class Aliens(pygame.sprite.Sprite):
+    sound_counter = 0
+
     def __init__(self, image1, image2, x, y):
         super().__init__()
         self.counter = 0
@@ -43,7 +45,6 @@ class Aliens(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.image1 = image1
         self.image2 = image2
-        self.walk_sound_1 = pygame.mixer.Sound('sounds/fastinvader1.wav')
 
     def update(self, flag):
         self.flag = flag
@@ -56,8 +57,14 @@ class Aliens(pygame.sprite.Sprite):
         self.turn()
         self.x += self.vel
         self.counter += 1
-        if self.counter == 8 or self.counter == 4:
-            self.walk_sound_1.play()
+        # if self.counter == 8 or self.counter == 4:
+        #     # walk_sound_1 = pygame.mixer.Sound(
+        #     #     f"sounds/fastinvader{self.sound_counter % 4 + 1}.wav")
+        #     # walk_sound_1.play()
+        #     pygame.mixer.music.load(
+        #         f"sounds/fastinvader{self.sound_counter % 4 + 1}.wav")
+        #     pygame.mixer.music.play()
+        #     self.sound_counter += 1
         self.counter = self.counter % 8
         self.rect = self.image.get_rect()
         self.rect.center = self.x, self.y

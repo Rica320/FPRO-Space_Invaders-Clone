@@ -22,9 +22,16 @@ class Menu():
         ''' Creates a menu window '''
         self.running_display = True  # ADD STOP
         self.background_sound()
+        with open('points.txt', 'r') as reader:
+            hi_score = 0
+            for line in reader:
+                if int(line) >= hi_score:
+                    hi_score = int(line)
         while self.running_display:
             self.game.events()
             self.game.display.fill(self.game.COLOR)
+            self.game.blit_text("space_invaders.ttf", f"Hi-score:{hi_score}",
+                                30, 500, 100)
             self.game.blit_text("Invaders-From-Space.ttf", "A", 250, 500, 400)
             self.game.blit_text("space_invaders.ttf", 'Insert 1 coin',
                                 60, 500, 550)
@@ -33,7 +40,7 @@ class Menu():
     def background_sound(self):
         ''' Loads and plays the Background music '''
         pygame.mixer.music.load(self.back_music)
-        pygame.mixer.music.play()
+        pygame.mixer.music.play(-1)
 
     def update_everything(self):
         ''' Update Method '''

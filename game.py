@@ -61,9 +61,11 @@ class Game():
     def game_loop(self):
         self.background_sound()
         while self.playing:
-            self.clock.tick(27)
+            self.clock.tick(27)  # 27
             self.events()
             if self.BACK_KEY:
+                with open('points.txt', 'a') as f:
+                    f.writelines(f"{self.ship1.score}\n")
                 self.BACK_KEY = False
                 self.recreater()
                 self.playing = False
@@ -76,8 +78,8 @@ class Game():
             self.update_method()
 
     def background_sound(self):
-        # pygame.mixer.music.load('sounds/fastinvader1.wav')
-        # pygame.mixer.music.play(loops = 1000000)
+        # pygame.mixer.music.load('teste2.wav')
+        # pygame.mixer.music.play()
         pass
 
     def events(self):
@@ -112,8 +114,10 @@ class Game():
         pygame.display.flip()
         self.blit_text('space_invaders.ttf', f"{self.ship1.score}",
                        30, 970, 30)
+        self.blit_text("Invaders-From-Space.ttf",
+                       'W' * (self.ship1.life + 1), 45, 55, 950)
         self.window.blit(self.display, (0, 0))  # NOTE : Garantir posição (0,0)
-        if len(self.random_bullet) < 2:
+        if len(self.random_bullet) < 4:
             aln = self.alien_g.sprites()
             if len(aln) > 0:
                 chosen_one = aln[random.randrange(0, len(aln))]
@@ -135,7 +139,8 @@ class Game():
         else:
             self.alien_g.update(False)
         for alien in self.alien_g:
-            pygame.sprite.spritecollide(alien, self.ship_group, True)
+            if pygame.sprite.spritecollide(alien, self.ship_group, True):
+                self.lose_window()
             if pygame.sprite.spritecollide(alien, self.ship1.bullet_g, True):
                 alien.killed()
                 self.update_method()
@@ -177,17 +182,20 @@ class Game():
                          self.alien5)
         self.ship1.score = 0
         self.ship1.bullet_g = pygame.sprite.Group()  # Not needed
+        self.random_bullet.empty()
 
     def lose_window(self):
+        with open('points.txt', 'a') as f:
+            f.writelines(f"{self.ship1.score}\n")
         while self.playing:
             self.display.fill(self.COLOR)
             pygame.display.flip()
-            self.blit_text('space_invaders.ttf', "You lose!!",
-                            50, 500, 400)
+            self.blit_text('space_invaders.ttf', "You lose!!!",
+                           50, 500, 400)
+            self.blit_text('space_invaders.ttf',
+                           f"Your score: {self.ship1.score}", 30, 500, 500)
             self.blit_text('space_invaders.ttf', "Press backspace to return",
-                            30, 500, 600)
-            self.blit_text('space_invaders.ttf', f"{self.ship1.score}",
-                        30, 970, 30)
+                           30, 500, 600)
             self.window.blit(self.display, (0, 0))
             pygame.display.update()
             self.events()
