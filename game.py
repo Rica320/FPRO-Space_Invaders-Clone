@@ -11,6 +11,7 @@ import menu
 import sprites
 import random
 import bot
+import keyboard
 
 
 class Game():
@@ -59,16 +60,19 @@ class Game():
                          self.alien5)
         self.random_bullet = pygame.sprite.Group()
         self.bot = bot.Bot(self)
+        self.bot_state = False
 
     def game_loop(self):
         self.background_sound()
         while self.playing:
-            self.clock.tick(27)  # 27
-            self.bot.move()
+            self.clock.tick(27)  # 
+            if self.bot_state:
+                self.bot.move()
             self.events()
             if self.BACK_KEY:
                 with open('points.txt', 'a') as f:
                     f.writelines(f"{self.ship1.score}\n")
+                self.bot_state = False
                 self.BACK_KEY = False
                 self.recreater()
                 self.playing = False
@@ -79,6 +83,10 @@ class Game():
                 self.ship1.score = acum_score
                 self.ship1.life = priv_life
             self.update_method()
+            if self.bot_state:
+                keyboard.release('left')
+                keyboard.release('right')
+                keyboard.release('space')
 
     def background_sound(self):
         # pygame.mixer.music.load('teste2.wav')
@@ -97,6 +105,11 @@ class Game():
                     self.playing = True
                     self.menu_state.running_display = False
                     pygame.mixer.music.fadeout(1000)
+                if event.key == pygame.K_b:
+                    self.playing = True
+                    self.menu_state.running_display = False
+                    pygame.mixer.music.fadeout(1000)
+                    self.bot_state = True
         key = pygame.key.get_pressed()
         if key[pygame.K_LEFT]:
             self.ship1.x += -self.vel

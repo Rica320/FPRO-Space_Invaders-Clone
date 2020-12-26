@@ -16,7 +16,7 @@ while game.running: # .running (original) DEBUG with .playing
     game.menu_state.menu_options_display()
     game.game_loop()
 
-pygame.quit()
+pygame.quit()                                
 # win = pygame.display.set_mode((1000,1000))
 
 # # images 
@@ -33,7 +33,7 @@ pygame.quit()
 
 # class Ship(pygame.sprite.Sprite):
 #     def __init__(self, pos):
-#         self.pos = pos 
+#         self.pos = pos     
 #         # self.music = 
 
 # def main():
