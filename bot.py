@@ -13,21 +13,32 @@ import random
 class Bot():
     def __init__(self, game):
         self.game = game
+        self.this = 'right'
 
     def move(self):
+        if self.game.ship1.x <= 400:
+            self.this = 'right'
+        elif self.game.ship1.x >= 700:
+            self.this = 'left'
         for bullet in self.game.random_bullet:
             if self.game.ship1.x - 28 <= bullet.x <= self.game.ship1.x + 28:
-                rn = random.randrange(0,2)
-                if rn == 0:
-                    keyboard.press('left')
-                else:
-                    keyboard.press('right')
+                keyboard.press(self.this)
             if self.game.ship1.x - 28 <= bullet.x + 5 <= self.game.ship1.x + 28:
-                rn = random.randrange(0,2)
-                if rn == 0:
-                    keyboard.press('left')
-                else:
-                    keyboard.press('right')
+                keyboard.press(self.this)
+        
+                    
+            # if self.game.ship1.x - 28 <= bullet.x <= self.game.ship1.x + 28:
+            #     rn = random.randrange(0,2)
+            #     if rn == 0:
+            #         keyboard.press(this)
+            #     else:
+            #         keyboard.press(that)
+            # if self.game.ship1.x - 28 <= bullet.x + 5 <= self.game.ship1.x + 28:
+            #     rn = random.randrange(0,2)
+            #     if rn == 0:
+            #         keyboard.press(this)
+            #     else:
+            #         keyboard.press(that)
         for alien in self.game.alien_g:
             # boll_1 = abs(round((10/3)*self.game.ship1.x - self.game.ship1.y))
             # boll_2 = abs(round((10/3)*alien.x - alien.y))
@@ -37,4 +48,21 @@ class Bot():
                 keyboard.press('space')
             # if alien.x == self.game.ship1.x + 3 or alien.x == self.game.ship1.x - 3:
             #     keyboard.press('space')
-        
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            

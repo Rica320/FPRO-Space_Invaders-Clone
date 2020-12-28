@@ -69,6 +69,10 @@ class Game():
             if self.bot_state:
                 self.bot.move()
             self.events()
+            if self.bot_state:
+                keyboard.release('left')
+                keyboard.release('right')
+                keyboard.release('space')
             if self.BACK_KEY:
                 with open('points.txt', 'a') as f:
                     f.writelines(f"{self.ship1.score}\n")
@@ -83,10 +87,6 @@ class Game():
                 self.ship1.score = acum_score
                 self.ship1.life = priv_life
             self.update_method()
-            if self.bot_state:
-                keyboard.release('left')
-                keyboard.release('right')
-                keyboard.release('space')
 
     def background_sound(self):
         # pygame.mixer.music.load('teste2.wav')
@@ -101,15 +101,15 @@ class Game():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     self.BACK_KEY = True
-                if event.key == pygame.K_i:
+                if event.key == pygame.K_i and not self.playing:
                     self.playing = True
                     self.menu_state.running_display = False
                     pygame.mixer.music.fadeout(1000)
-                if event.key == pygame.K_b:
+                if event.key == pygame.K_b and not self.playing:
                     self.playing = True
                     self.menu_state.running_display = False
-                    pygame.mixer.music.fadeout(1000)
                     self.bot_state = True
+                    pygame.mixer.music.fadeout(1000)
         key = pygame.key.get_pressed()
         if key[pygame.K_LEFT]:
             self.ship1.x += -self.vel
@@ -147,7 +147,7 @@ class Game():
         self.ship_group.update()
         self.ship_group.draw(self.window)
         self.alien_g.draw(self.window)  # TODO Find a way to stop the Bug
-        pygame.display.update()
+        pygame.display.update()  # BUG Solved... first update then draw
         for alien in self.alien_g:
             if alien.flag_bool():
                 self.alien_g.update(True)
@@ -216,6 +216,7 @@ class Game():
             pygame.display.update()
             self.events()
             if self.BACK_KEY:
+                self.bot_state = False
                 self.BACK_KEY = False
                 self.recreater()
                 self.playing = False
