@@ -24,6 +24,8 @@ Ou seja, se ele ficar junto à parede, a pessoa precisa de reiniciar o jogo. Est
 ### Pacotes
 
 - Pygame
+- Keyboard
+- Random
 
 ### Tarefas
 
