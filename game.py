@@ -12,6 +12,7 @@ import sprites
 import random
 import bot
 import keyboard
+import ctypes
 
 
 class Game():
@@ -21,6 +22,7 @@ class Game():
         self.running, self.playing = True, False  # DEBUGGING
         self.WIN_W, self.WIN_H = 1000, 1000
         self.display = pygame.Surface((self.WIN_W, self.WIN_H))
+        ctypes.windll.user32.SetProcessDPIAware() # for windows users 
         self.window = pygame.display.set_mode((self.WIN_W, self.WIN_H))
         self.BACK_KEY = False
         self.COLOR = (0, 0, 0)

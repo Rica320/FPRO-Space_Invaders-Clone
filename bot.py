@@ -20,10 +20,13 @@ class Bot():
             self.this = 'right'
         elif self.game.ship1.x >= 700:
             self.this = 'left'
+            
         if all(bullet.x < self.game.ship1.x for bullet in self.game.random_bullet):
             self.this = 'right'
+            
         if all(bullet.x > self.game.ship1.x for bullet in self.game.random_bullet):
             self.this = 'left'
+            
         for bullet in self.game.random_bullet:
             if self.game.ship1.x - 28 <= bullet.x <= self.game.ship1.x + 28:
                 keyboard.press(self.this)
