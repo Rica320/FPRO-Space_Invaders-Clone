@@ -52,10 +52,11 @@ class Bot():
             # if boll_1 == boll_2:
             #     keyboard.press('space')
             if abs((10/3)*self.game.ship1.x - self.game.ship1.y) <= abs((10/3)*alien.x - alien.y):
-                keyboard.press('space')
+                keyboard.press('space')  # TODO change 10/3 to vel/vel
             # if alien.x == self.game.ship1.x + 3 or alien.x == self.game.ship1.x - 3:
             #     keyboard.press('space')
-
+            # if round((10/3)*self.game.ship1.x - self.game.ship1.y) == round((10/3)*alien.x - alien.y):
+            #     keyboard.press('space')
             
             
             

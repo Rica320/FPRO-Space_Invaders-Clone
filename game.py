@@ -117,7 +117,7 @@ class Game():
             if self.ship1.x > self.ship1.image.get_rect().size[0]/2:
                 self.ship1.x += -self.vel
         elif key[pygame.K_RIGHT] and self.playing:
-            if self.ship1.x - self.ship1.image.get_rect().size[0]/2 < self.WIN_W:
+            if self.ship1.x + self.ship1.image.get_rect().size[0]/2 < self.WIN_W:
                 self.ship1.x += self.vel
         if key[pygame.K_SPACE] and self.playing:
             self.ship1.shoot()
