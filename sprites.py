@@ -36,7 +36,7 @@ class StarShip(pygame.sprite.Sprite):
 class Aliens(pygame.sprite.Sprite):
     sound_counter = 0
 
-    def __init__(self, image1, image2, x, y):
+    def __init__(self, image1, image2, x, y, points):
         super().__init__()
         self.counter = 0
         self.image = pygame.image.load(image1)
@@ -45,6 +45,7 @@ class Aliens(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.image1 = image1
         self.image2 = image2
+        self.points = points
 
     def update(self, flag):
         self.flag = flag

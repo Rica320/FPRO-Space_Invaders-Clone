@@ -6,13 +6,13 @@ Created on Sat Dec 19 13:21:03 2020
 @author: ricardo
 """
 
+import ctypes
 import pygame
 import menu
 import sprites
 import random
 import bot
 import keyboard
-import ctypes
 
 
 class Game():
@@ -39,23 +39,23 @@ class Game():
         self.vel = 5
         self.alien1 = [sprites.Aliens("Images/enemy1_1.png",
                                       "Images/enemy1_2.png",
-                                      200 + x*50, 100)
+                                      200 + x*50, 100, 30)
                        for x in range(11)]
         self.alien2 = [sprites.Aliens("Images/enemy2_1.png",
                                       "Images/enemy2_2.png",
-                                      200 + x*50, 150)
+                                      200 + x*50, 150, 20)
                        for x in range(11)]
         self.alien3 = [sprites.Aliens("Images/enemy2_1.png",
                                       "Images/enemy2_2.png",
-                                      200 + x*50, 200)
+                                      200 + x*50, 200, 20)
                        for x in range(11)]
         self.alien4 = [sprites.Aliens("Images/enemy3_1.png",
                                       "Images/enemy3_2.png",
-                                      200 + x*50, 250)
+                                      200 + x*50, 250, 10)
                        for x in range(11)]
         self.alien5 = [sprites.Aliens("Images/enemy3_1.png",
                                       "Images/enemy3_2.png",
-                                      200 + x*50, 300)
+                                      200 + x*50, 300, 10)
                        for x in range(11)]
         self.alien_g = pygame.sprite.Group()
         self.alien_g.add(self.alien1, self.alien2, self.alien3, self.alien4,
@@ -113,11 +113,13 @@ class Game():
                     self.bot_state = True
                     pygame.mixer.music.fadeout(1000)
         key = pygame.key.get_pressed()
-        if key[pygame.K_LEFT]:
-            self.ship1.x += -self.vel
-        elif key[pygame.K_RIGHT]:
-            self.ship1.x += self.vel
-        if key[pygame.K_SPACE]:
+        if key[pygame.K_LEFT] and self.playing:
+            if self.ship1.x > self.ship1.image.get_rect().size[0]/2:
+                self.ship1.x += -self.vel
+        elif key[pygame.K_RIGHT] and self.playing:
+            if self.ship1.x - self.ship1.image.get_rect().size[0]/2 < self.WIN_W:
+                self.ship1.x += self.vel
+        if key[pygame.K_SPACE] and self.playing:
             self.ship1.shoot()
 
     def blit_text(self, font_name, text, size, x, y):
@@ -131,7 +133,7 @@ class Game():
         self.display.fill(self.COLOR)
         pygame.display.flip()
         self.blit_text('space_invaders.ttf', f"{self.ship1.score}",
-                       30, 970, 30)
+                       30, self.WIN_W - 30*len(f"{self.ship1.score}"), 30)
         self.blit_text("Invaders-From-Space.ttf",
                        'W' * (self.ship1.life + 1), 45, 55, 950)
         self.window.blit(self.display, (0, 0))  # NOTE : Garantir posição (0,0)
@@ -162,8 +164,8 @@ class Game():
             if pygame.sprite.spritecollide(alien, self.ship1.bullet_g, True):
                 alien.killed()
                 self.update_method()
+                self.ship1.score += alien.points  # TODO change points
                 self.alien_g.remove(alien)
-                self.ship1.score += 1  # TODO change points
         if pygame.sprite.spritecollide(self.ship1, self.random_bullet, True):
             if self.ship1.life == 0:
                 self.ship1.kill()
@@ -178,23 +180,23 @@ class Game():
         self.alien_g.empty()
         self.alien1 = [sprites.Aliens("Images/enemy1_1.png",
                                       "Images/enemy1_2.png",
-                                      200 + x*50, 100)
+                                      200 + x*50, 100, 30)
                        for x in range(11)]
         self.alien2 = [sprites.Aliens("Images/enemy2_1.png",
                                       "Images/enemy2_2.png",
-                                      200 + x*50, 150)
+                                      200 + x*50, 150, 20)
                        for x in range(11)]
         self.alien3 = [sprites.Aliens("Images/enemy2_1.png",
                                       "Images/enemy2_2.png",
-                                      200 + x*50, 200)
+                                      200 + x*50, 200, 20)
                        for x in range(11)]
         self.alien4 = [sprites.Aliens("Images/enemy3_1.png",
                                       "Images/enemy3_2.png",
-                                      200 + x*50, 250)
+                                      200 + x*50, 250, 10)
                        for x in range(11)]
         self.alien5 = [sprites.Aliens("Images/enemy3_1.png",
                                       "Images/enemy3_2.png",
-                                      200 + x*50, 300)
+                                      200 + x*50, 300, 10)
                        for x in range(11)]
         self.alien_g.add(self.alien1, self.alien2, self.alien3, self.alien4,
                          self.alien5)
