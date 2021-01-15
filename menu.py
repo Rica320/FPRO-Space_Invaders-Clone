@@ -15,26 +15,28 @@ class Menu():
         pygame.mouse.set_visible(False)
         self.game = game
         self.running_display = True
-        self.music = True  # if the user wants...and fadout when moving to play
+        #  self.music = True  # if the user wants...and fadout when moving to play
         self.back_music = 'sounds/spaceinvaders1.ogg'
 
     def menu_options_display(self):
         ''' Creates a menu window '''
         self.running_display = True  # ADD STOP
-        self.background_sound()
-        with open('points.txt', 'r') as reader:
-            hi_score = 0
-            for line in reader:
-                if int(line) >= hi_score:
-                    hi_score = int(line)
+        if self.game.music:
+            self.background_sound()
         while self.running_display:
             self.game.events()
             self.game.display.fill(self.game.COLOR)
-            self.game.blit_text("space_invaders.ttf", f"Hi-score:{hi_score}",
+            self.game.blit_text("space_invaders.ttf",
+                                f"Hi-score:{self.game.hi_score}",
                                 30, 500, 100)
-            self.game.blit_text("Invaders-From-Space.ttf", "A", 250, 500, 400)
-            self.game.blit_text("space_invaders.ttf", 'Insert 1 coin',
-                                60, 500, 550)
+            self.game.blit_text("Invaders-From-Space.ttf", "A", 350, 500, 400)
+            self.game.blit_text("space_invaders.ttf", "Press 'i' to play",
+                                40, 500, 560)
+            self.game.blit_text("space_invaders.ttf", "Press 'b' to play the Bot",
+                                40, 500, 660)
+            self.game.blit_text("space_invaders.ttf", 
+                                f"Music ('m')-->{'On' if self.game.music else 'Off'}",
+                                25, 800, 900)
             self.update_everything()
 
     def background_sound(self):

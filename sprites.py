@@ -6,6 +6,7 @@ Created on Sat Dec 19 21:01:20 2020
 @author: ricardo
 """
 import pygame
+import game
 
 pygame.init()
 
@@ -89,6 +90,26 @@ class Aliens(pygame.sprite.Sprite):
         self.shot = Shot(self.x, self.y, False)
         self.shot.update()  # estará a mais ??
         
+class MysteriousShip(pygame.sprite.Sprite):
+    points = 100
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("Images/mystery.png")
+        self.rect = self.image.get_rect()
+        self.x, self.y = -self.image.get_rect().size[0] / 2, 50
+        self.vel = 10
+        self.image = pygame.transform.rotozoom(self.image, 0, 0.3)
+        
+    def update(self, abool):
+        self.x += self.vel
+        if abool:
+            sound = pygame.mixer.Sound('sounds/ufo_highpitch.wav')
+        else:
+            sound = pygame.mixer.Sound('sounds/ufo_lowpitch.wav')
+        sound.play()
+        self.rect = self.image.get_rect()
+        self.rect.center = self.x, self.y
+    
 class Shot(pygame.sprite.Sprite):
     def __init__(self, x, y, a_bool):
         super().__init__()

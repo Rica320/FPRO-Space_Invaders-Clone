@@ -57,20 +57,3 @@ class Bot():
             #     keyboard.press('space')
             # if round((10/3)*self.game.ship1.x - self.game.ship1.y) == round((10/3)*alien.x - alien.y):
             #     keyboard.press('space')
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            

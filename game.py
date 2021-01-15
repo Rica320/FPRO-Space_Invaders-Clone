@@ -16,6 +16,15 @@ import keyboard
 
 
 class Game():
+    mis_ship = sprites.MysteriousShip()
+    mis_ship_g = pygame.sprite.Group()
+    mis_event = pygame.USEREVENT
+    with open('points.txt', 'r') as reader:
+        hi_score = 0
+        for line in reader:
+            if int(line) >= hi_score:
+                hi_score = int(line)
+
     def __init__(self):
         pygame.init()
         pygame.mouse.set_visible(False)
@@ -66,6 +75,7 @@ class Game():
 
     def game_loop(self):
         self.background_sound()
+        pygame.time.set_timer(self.mis_event, 2000)
         while self.playing:
             self.clock.tick(27)  # 
             if self.bot_state:
@@ -112,6 +122,12 @@ class Game():
                     self.menu_state.running_display = False
                     self.bot_state = True
                     pygame.mixer.music.fadeout(1000)
+                if event.key == pygame.K_m and not self.playing:
+                    if self.music:
+                        pygame.mixer.music.fadeout(1000)
+                    else:
+                        self.menu_state.background_sound()
+                    self.music = not self.music
         key = pygame.key.get_pressed()
         if key[pygame.K_LEFT] and self.playing:
             if self.ship1.x > self.ship1.image.get_rect().size[0]/2:
@@ -144,6 +160,18 @@ class Game():
                 self.random_bullet.add(sprites.Shot(chosen_one.x,
                                                     chosen_one.y, False))
 
+        if pygame.event.get(self.mis_event):
+            self.mis_ship_g.add(self.mis_ship)
+        if self.mis_ship.x <= self.WIN_W + self.mis_ship.image.get_rect().size[0]:
+            if len(self.alien_g) <= 22:
+                self.mis_ship_g.update(True)
+            else:
+                self.mis_ship_g.update(False)
+        else:
+            self.mis_ship.kill()
+            self.mis_ship = sprites.MysteriousShip()
+        self.mis_ship_g.draw(self.window)
+        
         self.random_bullet.update()
         self.random_bullet.draw(self.window)
         self.ship1.bullet_g.update()
@@ -161,6 +189,8 @@ class Game():
         for alien in self.alien_g:
             if pygame.sprite.spritecollide(alien, self.ship_group, True):
                 self.lose_window()
+            if alien.y == self.WIN_H:
+                self.lose_window()
             if pygame.sprite.spritecollide(alien, self.ship1.bullet_g, True):
                 alien.killed()
                 self.update_method()
@@ -172,6 +202,10 @@ class Game():
                 self.lose_window()
             else:
                 self.ship1.life -= 1
+        if pygame.sprite.spritecollide(self.mis_ship,self.ship1.bullet_g,True):
+            self.ship1.score += self.mis_ship.points
+            self.mis_ship_g.remove(self.mis_ship)
+            self.mis_ship = sprites.MysteriousShip()
 
     def recreater(self):
         self.ship_group.add(self.ship1)
@@ -203,6 +237,8 @@ class Game():
         self.ship1.score = 0
         self.ship1.bullet_g = pygame.sprite.Group()  # Not needed
         self.random_bullet.empty()
+        self.mis_ship_g.empty()
+        self.mis_ship = sprites.MysteriousShip()
 
     def lose_window(self):
         with open('points.txt', 'a') as f:
@@ -210,8 +246,12 @@ class Game():
         while self.playing:
             self.display.fill(self.COLOR)
             pygame.display.flip()
-            self.blit_text('space_invaders.ttf', "You lose!!!",
-                           50, 500, 400)
+            if self.ship1.score < self.hi_score:
+                self.blit_text('space_invaders.ttf', "You lose!!!",
+                               50, 500, 400)
+            else:
+                self.blit_text('space_invaders.ttf', "NEW RECORD!!!",
+                               50, 500, 400)
             self.blit_text('space_invaders.ttf',
                            f"Your score: {self.ship1.score}", 30, 500, 500)
             self.blit_text('space_invaders.ttf', "Press backspace to return",
@@ -224,7 +264,6 @@ class Game():
                 self.BACK_KEY = False
                 self.recreater()
                 self.playing = False
-        
         
         
     
