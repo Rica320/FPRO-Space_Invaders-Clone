@@ -6,7 +6,6 @@ Created on Sat Dec 19 21:01:20 2020
 @author: ricardo
 """
 import pygame
-import game
 
 pygame.init()
 
@@ -47,6 +46,7 @@ class Aliens(pygame.sprite.Sprite):
         self.image1 = image1
         self.image2 = image2
         self.points = points
+        self.kill_frames = 1
 
     def update(self, flag):
         self.flag = flag
@@ -85,6 +85,7 @@ class Aliens(pygame.sprite.Sprite):
     def killed(self):
         self.image = pygame.image.load("Images/explosionpurple.png")
         self.image = pygame.transform.rotozoom(self.image, 0, 0.4)
+        self.kill_frames = 0
 
     def shoot(self):
         self.shot = Shot(self.x, self.y, False)

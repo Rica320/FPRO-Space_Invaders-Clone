@@ -51,8 +51,12 @@ class Bot():
             # boll_2 = abs(round((10/3)*alien.x - alien.y))
             # if boll_1 == boll_2:
             #     keyboard.press('space')
-            if abs((10/3)*self.game.ship1.x - self.game.ship1.y) <= abs((10/3)*alien.x - alien.y):
-                keyboard.press('space')  # TODO change 10/3 to vel/vel
+            # if abs((10/alien.vel)*self.game.ship1.x - self.game.ship1.y) <= abs((10/alien.vel)*alien.x - alien.y):
+            #     keyboard.press('space')  # TODO change 10/3 to vel/vel
+            up = round(self.game.ship1.x + (self.game.ship1.y - alien.y)/10 * alien.vel)
+            less = round(self.game.ship1.x - (self.game.ship1.y - alien.y)/10 * alien.vel)
+            if less <= alien.x <= up:
+                keyboard.press('space')
             # if alien.x == self.game.ship1.x + 3 or alien.x == self.game.ship1.x - 3:
             #     keyboard.press('space')
             # if round((10/3)*self.game.ship1.x - self.game.ship1.y) == round((10/3)*alien.x - alien.y):

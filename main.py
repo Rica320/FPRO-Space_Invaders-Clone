@@ -7,7 +7,7 @@ Created on Fri Dec 18 17:23:09 2020
 """
 
 import pygame
-import game
+import game                                     
 
 game = game.Game()
 
