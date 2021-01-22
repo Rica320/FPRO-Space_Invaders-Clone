@@ -34,7 +34,7 @@ class Menu():
                                 40, 500, 560)
             self.game.blit_text("space_invaders.ttf", "Press 'b' to play the Bot",
                                 40, 500, 660)
-            self.game.blit_text("space_invaders.ttf", 
+            self.game.blit_text("space_invaders.ttf",
                                 f"Music ('m')-->{'On' if self.game.music else 'Off'}",
                                 25, 800, 900)
             self.update_everything()

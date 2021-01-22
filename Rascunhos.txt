@@ -1,0 +1,146 @@
+# SPRITES.py early TESTs
+
+# alien_g = pygame.sprite.Group()
+
+# alien1 = [Aliens("Images/enemy1_1.png", "Images/enemy1_2.png", 200 + x*50, 100) for x in range(11)]
+# alien2 = [Aliens("Images/enemy1_1.png", "Images/enemy1_2.png", 200 + x*50, 150) for x in range(11)]
+
+# alien_g.add(alien1,alien2)
+
+# random_bullet = pygame.sprite.Group()
+        
+
+# ship = StarShip(400, 900)
+# ship_g = pygame.sprite.Group()
+# ship_g.add(ship)
+# screen = pygame.display.set_mode((1000,1000))
+# run = True
+# clock = pygame.time.Clock()
+# su = pygame.Surface((1000,1000))
+# su.fill((40,0,0))
+# ship2 = StarShip(300, 900)
+# ship_g.add(ship2)
+
+# while run:
+#     clock.tick(27)
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             run = False
+#     key = pygame.key.get_pressed()
+#     if key[pygame.K_LEFT]:
+#         for el in ship_g:
+#             el.x += -5
+
+#     elif key[pygame.K_RIGHT]:
+#         for el in ship_g:
+#             el.x += +5
+
+#     if key[pygame.K_SPACE]:
+#         ship.shoot()
+
+#     pygame.display.flip()
+#     screen.blit(su, (0,0))
+#     ship_g.draw(screen)
+#     ship.bullet_g.draw(screen)
+#     alien_g.draw(screen)
+    
+#     if len(random_bullet) < 2:
+#         aln = alien_g.sprites()
+#         if len(aln) > 0:
+#             chosen_one = aln[random.randrange(0, len(aln))]
+#             random_bullet.add(Shot(chosen_one.x, chosen_one.y, False))
+#     random_bullet.draw(screen)
+#     random_bullet.update()
+#     ship.bullet_g.update()
+#     ship_g.update()
+        
+
+#     for alien in alien_g:
+#         if alien.flag_bool():
+#             alien_g.update(True)
+#             break
+#     else:
+#         alien_g.update(False)
+
+#     for alien in alien_g:
+#         pygame.sprite.spritecollide(alien , ship_g, True)
+#         if pygame.sprite.spritecollide(alien, ship.bullet_g, True):
+#             alien_g.remove(alien)
+    
+    
+       
+    
+# pygame.quit()
+
+
+
+# random_bullet = pygame.sprite.Group()
+# if len(random_bullet) < 2:
+#             aln = self.alien_g.sprites()
+#             if len(aln) > 0:
+#                 chosen_one = aln[random.randrange(0, len(aln))]
+#                 random_bullet.add(sprites.Shot(chosen_one.x, chosen_one.y,
+#                                                 False))
+#         random_bullet.draw(self.window)
+# random_bullet.update()
+
+
+
+# BOT.py - TESTs
+import keyboard
+import random
+
+
+class Bot():
+    def __init__(self, game):
+        self.game = game
+        self.this = 'right'
+
+    def move(self, aliens_left):
+        if self.game.ship1.x <= 400:
+            self.this = 'right'
+        elif self.game.ship1.x >= 700:
+            self.this = 'left'
+            
+        if all(bullet.x < self.game.ship1.x for bullet in self.game.random_bullet):
+            self.this = 'right'
+            
+        if all(bullet.x > self.game.ship1.x for bullet in self.game.random_bullet):
+            self.this = 'left'
+            
+        for bullet in self.game.random_bullet:
+            if self.game.ship1.x - 28 <= bullet.x <= self.game.ship1.x + 28:
+                keyboard.press(self.this)
+            if self.game.ship1.x - 28 <= bullet.x + 5 <= self.game.ship1.x + 28:
+                keyboard.press(self.this)
+        
+                    
+            # if self.game.ship1.x - 28 <= bullet.x <= self.game.ship1.x + 28:
+            #     rn = random.randrange(0,2)
+            #     if rn == 0:
+            #         keyboard.press(this)
+            #     else:
+            #         keyboard.press(that)
+            # if self.game.ship1.x - 28 <= bullet.x + 5 <= self.game.ship1.x + 28:
+            #     rn = random.randrange(0,2)
+            #     if rn == 0:
+            #         keyboard.press(this)
+            #     else:
+            #         keyboard.press(that)
+        for alien in self.game.alien_g:
+            # boll_1 = abs(round((10/3)*self.game.ship1.x - self.game.ship1.y))
+            # boll_2 = abs(round((10/3)*alien.x - alien.y))
+            # if boll_1 == boll_2:
+            #     keyboard.press('space')
+            # if abs((10/alien.vel)*self.game.ship1.x - self.game.ship1.y) <= abs((10/alien.vel)*alien.x - alien.y):
+            #     keyboard.press('space')  # TODO change 10/3 to vel/vel
+            up = round(self.game.ship1.x + (self.game.ship1.y - alien.y)/10 * alien.vel)
+            less = round(self.game.ship1.x - (self.game.ship1.y - alien.y)/10 * alien.vel)
+            if less <= alien.x <= up:
+                keyboard.press('space')
+        if aliens_left >= 4:
+            keyboard.press('space')
+            # if alien.x == self.game.ship1.x + 3 or alien.x == self.game.ship1.x - 3:
+            #     keyboard.press('space')
+            # if round((10/3)*self.game.ship1.x - self.game.ship1.y) == round((10/3)*alien.x - alien.y):
+            #     keyboard.press('space')

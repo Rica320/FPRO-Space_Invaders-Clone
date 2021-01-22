@@ -6,13 +6,13 @@ Created on Sat Dec 19 13:21:03 2020
 @author: ricardo
 """
 
-import ctypes
 import pygame
 import menu
 import sprites
 import random
 import bot
 import keyboard
+from ctypes import windll
 
 
 class Game():
@@ -31,7 +31,7 @@ class Game():
         self.running, self.playing = True, False  # DEBUGGING
         self.WIN_W, self.WIN_H = 1000, 1000
         self.display = pygame.Surface((self.WIN_W, self.WIN_H))
-        ctypes.windll.user32.SetProcessDPIAware() # for windows users 
+        windll.user32.SetProcessDPIAware()  # for windows users
         self.window = pygame.display.set_mode((self.WIN_W, self.WIN_H))
         self.BACK_KEY = False
         self.COLOR = (0, 0, 0)
@@ -77,9 +77,10 @@ class Game():
         self.background_sound()
         pygame.time.set_timer(self.mis_event, 2000)
         while self.playing:
-            self.clock.tick(27)  # 
+            self.clock.tick(27)
+            aliens_left = len(self.alien_g)
             if self.bot_state:
-                self.bot.move()
+                self.bot.move(aliens_left)
             self.events()
             if self.bot_state:
                 keyboard.release('left')
@@ -92,7 +93,7 @@ class Game():
                 self.BACK_KEY = False
                 self.recreater()
                 self.playing = False
-            if len(self.alien_g) == 0:
+            if aliens_left == 0:
                 acum_score = self.ship1.score
                 priv_life = self.ship1.life
                 self.recreater()
@@ -191,6 +192,7 @@ class Game():
             if size_pack <= 4:  # TODO
                 alien.vel = 6 if alien.vel > 0 else -6
             if alien.kill_frames == 0:
+                # kills the alien before checking for collisions
                 self.alien_g.remove(alien)
             if pygame.sprite.spritecollide(alien, self.ship_group, True):
                 self.lose_window()
