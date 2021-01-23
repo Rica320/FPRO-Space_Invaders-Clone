@@ -12,13 +12,18 @@ import sprites
 import random
 import bot
 import keyboard
-from ctypes import windll
+# from ctypes import windll
 
 
 class Game():
+    '''
+    The class has the purpose of stating all the objects of the game.
+    It contains the main loop of the game.
+    '''
     mis_ship = sprites.MysteriousShip()
     mis_ship_g = pygame.sprite.Group()
     mis_event = pygame.USEREVENT
+    pygame.display.set_caption('FPRO-Space_Invaders-Clone')
     with open('points.txt', 'r') as reader:
         hi_score = 0
         for line in reader:
@@ -32,7 +37,7 @@ class Game():
         self.WIN_W, self.WIN_H = 1000, 1000
         self.display = pygame.Surface((self.WIN_W, self.WIN_H))
         # windll.user32.SetProcessDPIAware()  # for windows users
-        self.window = pygame.display.set_mode((self.WIN_W, self.WIN_H), 
+        self.window = pygame.display.set_mode((self.WIN_W, self.WIN_H),
                                               pygame.SCALED | pygame.RESIZABLE)
         self.BACK_KEY = False
         self.COLOR = (0, 0, 0)
@@ -183,7 +188,7 @@ class Game():
             self.mis_ship.kill()
             self.mis_ship = sprites.MysteriousShip()
         self.mis_ship_g.draw(self.window)
-        
+
         self.random_bullet.update()
         self.random_bullet.draw(self.window)
         self.ship1.bullet_g.update()
@@ -201,6 +206,10 @@ class Game():
         for alien in self.alien_g:
             if size_pack <= 4:  # TODO
                 alien.vel = 6 if alien.vel > 0 else -6
+            if size_pack == 2:  # TODO
+                alien.vel = 8 if alien.vel > 0 else -8
+            if size_pack == 1:  # TODO
+                alien.vel = 10 if alien.vel > 0 else -10
             if alien.kill_frames == 0:
                 # kills the alien before checking for collisions
                 self.alien_g.remove(alien)
