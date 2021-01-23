@@ -20,9 +20,9 @@
 .---*
 
 ### UI
-.---* Menu: .---*
+#### Menu:
 ![UI](https://github.com/Rica320/FPRO-Space_Invaders-Clone/blob/main/Images/UI1.PNG)
-.---* Game Play: .---*
+#### Game Play:
 ![UI](https://github.com/Rica320/FPRO-Space_Invaders-Clone/blob/main/Images/UI2.PNG)
 
 ### Pacotes
