@@ -13,13 +13,14 @@
 
 ### Descrição
 
-*---É um jogo de puzzle em que o objetivo do jogo é empurrar caixotes para um sítio indicado. 
-Para empurrar o caixote é preciso ir ao outro lado empurrá-lo. 
-Ou seja, se ele ficar junto à parede, a pessoa precisa de reiniciar o jogo. Estamos a utilizar os níveis do XSokoban.---*
+*--- Mata o máximo de Aliens que conseguires... a morte é certa.
+    "Good bye, old friend. May the Force be with you."
+    ―Obi-Wan Kenobi, to Anakin Skywalker .---*
 
 ### UI
 
-![UI](https://github.com/fpro-feup/public/blob/master/recitas/ui.png)
+![UI](https://github.com/Rica320/FPRO-Space_Invaders-Clone/blob/main/Images/UI1.PNG)
+![UI](https://github.com/Rica320/FPRO-Space_Invaders-Clone/blob/main/Images/UI2.PNG)
 
 ### Pacotes
 
@@ -27,12 +28,5 @@ Ou seja, se ele ficar junto à parede, a pessoa precisa de reiniciar o jogo. Est
 - Keyboard
 - Random
 
-### Tarefas
-
-1. carregar os níveis
-1. desenhar a matriz do nível
-1. ler teclas e mover as peças
-2. verificar se jogador chegou ao fim do nível
-
-- Atualizado a última vez em 07/12/2020
+- Atualizado a última vez em 23/01/2020
 
