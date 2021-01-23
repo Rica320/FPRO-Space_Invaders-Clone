@@ -29,6 +29,8 @@ class Menu():
             self.game.blit_text("space_invaders.ttf",
                                 f"Hi-score:{self.game.hi_score}",
                                 30, 500, 100)
+            self.game.blit_text("space_invaders.ttf", "'f' to fit the screen",
+                                25, 500, 200)
             self.game.blit_text("Invaders-From-Space.ttf", "A", 350, 500, 400)
             self.game.blit_text("space_invaders.ttf", "Press 'i' to play",
                                 40, 500, 560)
@@ -37,6 +39,9 @@ class Menu():
             self.game.blit_text("space_invaders.ttf",
                                 f"Music ('m')-->{'On' if self.game.music else 'Off'}",
                                 25, 800, 900)
+            self.game.blit_text("space_invaders.ttf",
+                                "'q' to leave",
+                                25, 150, 900)
             self.update_everything()
 
     def background_sound(self):

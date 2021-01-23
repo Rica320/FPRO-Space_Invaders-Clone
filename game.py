@@ -31,8 +31,9 @@ class Game():
         self.running, self.playing = True, False  # DEBUGGING
         self.WIN_W, self.WIN_H = 1000, 1000
         self.display = pygame.Surface((self.WIN_W, self.WIN_H))
-        windll.user32.SetProcessDPIAware()  # for windows users
-        self.window = pygame.display.set_mode((self.WIN_W, self.WIN_H))
+        # windll.user32.SetProcessDPIAware()  # for windows users
+        self.window = pygame.display.set_mode((self.WIN_W, self.WIN_H), 
+                                              pygame.SCALED | pygame.RESIZABLE)
         self.BACK_KEY = False
         self.COLOR = (0, 0, 0)
         self.music = True  # change this
@@ -111,6 +112,10 @@ class Game():
             if event.type == pygame.QUIT:
                 self.running, self.playing = False, False
                 self.menu_state.running_display = False
+            if event.type == pygame.VIDEORESIZE:
+                pygame.display._resize_event(event)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                pygame.display.toggle_fullscreen()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     self.BACK_KEY = True
@@ -129,6 +134,11 @@ class Game():
                     else:
                         self.menu_state.background_sound()
                     self.music = not self.music
+                if event.key == pygame.K_q:
+                    self.playing = False
+                    self.menu_state.running_display = False
+                    self.bot_state = True
+                    self.running = False
         key = pygame.key.get_pressed()
         if key[pygame.K_LEFT] and self.playing:
             if self.ship1.x > self.ship1.image.get_rect().size[0]/2:
