@@ -13,11 +13,11 @@
 
 ### Descrição
 
-*--- Mata o máximo de Aliens que conseguires... a morte é certa. .---*
-.---*
+* Mata o máximo de Aliens que conseguires... a morte é certa.
+>
     "Good bye, old friend. May the Force be with you."
-    ―Obi-Wan Kenobi, to Anakin Skywalker .
-.---*
+                        ―Obi-Wan Kenobi, to Anakin Skywalker .
+
 
 ### UI
 #### Menu:
