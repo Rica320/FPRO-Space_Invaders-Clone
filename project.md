@@ -30,6 +30,11 @@
 - Pygame
 - Keyboard
 - Random
+### Referências
+* http://www.classicgaming.cc/classics/space-invaders/sounds -sons 
+* https://github.com/leerob/Space_Invaders -imagens
+* https://thefontsmagazine.com/font/space-invaders-font/ - fontes
+* https://stackoverflow.com/questions/27421391/pygame-display-info-giving-wrong-resolution-size -problemas
 
 - Atualizado a última vez em 23/01/2020
 
