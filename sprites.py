@@ -19,7 +19,6 @@ class StarShip(pygame.sprite.Sprite):
         self.shoot_sound = pygame.mixer.Sound("sounds/shoot.wav")
         self.rect = self.image.get_rect()
         self.x, self.y = x, y
-        # self.shot = Shot(self.x, self.y)
         self.bullet_g = pygame.sprite.Group()
         self.score = 0
         self.life = 2  # giving 3 lifes
@@ -33,7 +32,7 @@ class StarShip(pygame.sprite.Sprite):
             shot = Shot(self.x, self.y, True)
             self.bullet_g.add(shot)
             self.shoot_sound.play()
-            shot.update()  # estará a mais ??
+            shot.update()
 
     def update(self):
         ''' Update of the position of the StarShip '''
@@ -107,11 +106,13 @@ class Aliens(pygame.sprite.Sprite):
         self.image = pygame.image.load("Images/explosionpurple.png")
         self.image = pygame.transform.rotozoom(self.image, 0, 0.4)
         self.kill_frames = 0
+        kill_sound = pygame.mixer.Sound('sounds/invaderkilled.wav')
+        kill_sound.play()
 
     def shoot(self):
         ''' Instantiates a Shot object '''
         shot = Shot(self.x, self.y, False)
-        shot.update()  # estará a mais ??
+        shot.update()
 
 
 class MysteriousShip(pygame.sprite.Sprite):
@@ -135,12 +136,9 @@ class MysteriousShip(pygame.sprite.Sprite):
         self.x += self.vel
         if abool:
             sound = pygame.mixer.Sound('sounds/ufo_highpitch.wav')
-            # pygame.mixer.music.load('sounds/ufo_highpitch.wav')
         else:
             sound = pygame.mixer.Sound('sounds/ufo_lowpitch.wav')
-            # pygame.mixer.music.load('sounds/ufo_highpitch.wav')
         sound.play()
-        # pygame.mixer.music.play(-1)
         self.rect = self.image.get_rect()
         self.rect.center = self.x, self.y
 

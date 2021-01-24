@@ -5,13 +5,12 @@ Created on Sat Dec 19 13:21:03 2020
 
 @author: ricardo
 """
-
+import random
 import pygame
+import keyboard
 import menu
 import sprites
-import random
 import bot
-import keyboard
 # from ctypes import windll
 
 
@@ -33,7 +32,7 @@ class Game():
     def __init__(self):
         pygame.init()
         pygame.mouse.set_visible(False)
-        self.running, self.playing = True, False  # DEBUGGING
+        self.running, self.playing = True, False
         self.WIN_W, self.WIN_H = 1000, 1000
         self.display = pygame.Surface((self.WIN_W, self.WIN_H))
         # windll.user32.SetProcessDPIAware()  # for windows users
@@ -51,7 +50,7 @@ class Game():
         self.ship_group = pygame.sprite.Group()
         self.ship_group.add(self.ship1)
         # Leaves the option for a second player
-        self.vel = 5  # what is this???
+        self.vel = 5
         self.alien1 = [sprites.Aliens("Images/enemy1_1.png",
                                       "Images/enemy1_2.png",
                                       200 + x*50, 100, 30)
@@ -80,7 +79,7 @@ class Game():
         self.bot_state = False
 
     def game_loop(self):
-        self.background_sound()
+        ''' The main loop of the game'''
         pygame.time.set_timer(self.mis_event, 2000)
         while self.playing:
             self.clock.tick(27)
@@ -93,8 +92,8 @@ class Game():
                 keyboard.release('right')
                 keyboard.release('space')
             if self.BACK_KEY:
-                with open('points.txt', 'a') as f:
-                    f.writelines(f"{self.ship1.score}\n")
+                with open('points.txt', 'a') as file:
+                    file.writelines(f"{self.ship1.score}\n")
                 self.bot_state = False
                 self.BACK_KEY = False
                 self.recreater()
@@ -107,12 +106,10 @@ class Game():
                 self.ship1.life = priv_life
             self.update_method()
 
-    def background_sound(self):
-        # pygame.mixer.music.load('teste2.wav')
-        # pygame.mixer.music.play()
-        pass
-
     def events(self):
+        '''
+        All the events of the game except the mysterious ship event.
+        '''
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running, self.playing = False, False
@@ -155,6 +152,7 @@ class Game():
             self.ship1.shoot()
 
     def blit_text(self, font_name, text, size, x, y):
+        ''' Blits to the screen a text message '''
         font = pygame.font.Font(font_name, size)
         screen_text = font.render(text, True, self.TEXT_COLOR)
         text_rect = screen_text.get_rect()  # later use
@@ -162,6 +160,11 @@ class Game():
         self.display.blit(screen_text, text_rect)
 
     def update_method(self):
+        '''
+        A method that defines what changes throughout the game.
+        This method calls all the objects updating methods.
+        It also updates the score of the player.
+        '''
         size_pack = len(self.alien_g)
         self.display.fill(self.COLOR)
         pygame.display.flip()
@@ -195,8 +198,8 @@ class Game():
         self.ship1.bullet_g.draw(self.window)
         self.ship_group.update()
         self.ship_group.draw(self.window)
-        self.alien_g.draw(self.window)  # TODO Find a way to stop the Bug
-        pygame.display.update()  # BUG Solved... first update then draw
+        self.alien_g.draw(self.window)
+        pygame.display.update()
         for alien in self.alien_g:
             if alien.flag_bool():
                 self.alien_g.update(True)
@@ -204,11 +207,11 @@ class Game():
         else:
             self.alien_g.update(False)
         for alien in self.alien_g:
-            if size_pack <= 4:  # TODO
+            if size_pack <= 6:
                 alien.vel = 6 if alien.vel > 0 else -6
-            if size_pack == 2:  # TODO
+            if size_pack == 2:
                 alien.vel = 8 if alien.vel > 0 else -8
-            if size_pack == 1:  # TODO
+            if size_pack == 1:
                 alien.vel = 10 if alien.vel > 0 else -10
             if alien.kill_frames == 0:
                 # kills the alien before checking for collisions
@@ -219,19 +222,22 @@ class Game():
                 self.lose_window()
             if pygame.sprite.spritecollide(alien, self.ship1.bullet_g, True):
                 alien.killed()
-                self.ship1.score += alien.points  # TODO change points
+                self.ship1.score += alien.points
         if pygame.sprite.spritecollide(self.ship1, self.random_bullet, True):
             if self.ship1.life == 0:
+                death_sound = pygame.mixer.Sound('sounds/explosion.wav')
+                death_sound.play()
                 self.ship1.kill()
                 self.lose_window()
             else:
                 self.ship1.life -= 1
-        if pygame.sprite.spritecollide(self.mis_ship,self.ship1.bullet_g,True):
+        if pygame.sprite.spritecollide(self.mis_ship, self.ship1.bullet_g, True):
             self.ship1.score += self.mis_ship.points
             self.mis_ship_g.remove(self.mis_ship)
             self.mis_ship = sprites.MysteriousShip()
 
     def recreater(self):
+        ''' Remakes all the objects of the game for a new level or game '''
         self.ship_group.add(self.ship1)
         self.ship1.life = 2
         self.ship1.x, self.ship1.y = self.ship1_x, self.ship1_y
@@ -265,8 +271,9 @@ class Game():
         self.mis_ship = sprites.MysteriousShip()
 
     def lose_window(self):
-        with open('points.txt', 'a') as f:
-            f.writelines(f"{self.ship1.score}\n")
+        ''' Blits to the display a losing message. '''
+        with open('points.txt', 'a') as file:
+            file.writelines(f"{self.ship1.score}\n")
         while self.playing:
             self.display.fill(self.COLOR)
             pygame.display.flip()
@@ -289,18 +296,3 @@ class Game():
                 self.BACK_KEY = False
                 self.recreater()
                 self.playing = False
-        
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-                    
