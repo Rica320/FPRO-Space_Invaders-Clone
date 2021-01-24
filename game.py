@@ -207,7 +207,7 @@ class Game():
         else:
             self.alien_g.update(False)
         for alien in self.alien_g:
-            if size_pack <= 6:
+            if size_pack <= 5:
                 alien.vel = 6 if alien.vel > 0 else -6
             if size_pack == 2:
                 alien.vel = 8 if alien.vel > 0 else -8

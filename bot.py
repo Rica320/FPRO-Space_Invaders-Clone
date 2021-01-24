@@ -45,5 +45,5 @@ class Bot():
             less = round(self.game.ship1.x - (self.game.ship1.y - alien.y)/10 * alien.vel)
             if less <= alien.x <= up:
                 keyboard.press('space')
-        if aliens_left >= 6:
+        if aliens_left >= 5:
             keyboard.press('space')
