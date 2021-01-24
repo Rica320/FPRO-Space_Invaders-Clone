@@ -1,4 +1,4 @@
-# Projeto Space Invaders
+# Projeto Space Invaders Clone
 ## FPRO/MIEIC, 2020/21
 ## Ricardo de Matos (up202007962)
 ## 1MIEIC04
@@ -14,9 +14,10 @@
 ### Descrição
 
 * Mata o máximo de Aliens que conseguires... a morte é certa.
+* Para começar o jogo 'corre' o ficheiro main.py
 >
     "Good bye, old friend. May the Force be with you."
-                        ―Obi-Wan Kenobi, to Anakin Skywalker .
+                            ―Obi-Wan Kenobi, to Anakin Skywalker .
 
 
 ### UI
@@ -36,5 +37,5 @@
 * https://thefontsmagazine.com/font/space-invaders-font/ - fontes
 * https://stackoverflow.com/questions/27421391/pygame-display-info-giving-wrong-resolution-size -problemas
 
-- Atualizado a última vez em 23/01/2020
+- Atualizado a última vez em 24/01/2020
 
